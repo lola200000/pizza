@@ -1,0 +1,21 @@
+security:
+    password_hashers:
+        App\Entity\User: "auto"
+
+    providers:
+        users:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        main:
+            form_login:
+                login_path: app_login
+                check_path: app_login
+            logout:
+                path: app_logout
+            custom_authenticator: App\Security\AppCustomAuthenticator
+
+    access_control:
+        - { path: ^/login, roles: PUBLIC_ACCESS }
