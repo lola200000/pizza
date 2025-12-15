@@ -1,46 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion | Pizza Express{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
-<div class="login-container">
+<h1>Connexion</h1>
 
-    <h2>Connexion</h2>
+{% if error %}
+    <div class="alert alert-danger">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+{% endif %}
 
-    {% if error %}
-        <div class="error">
-            {{ error.messageKey|trans(error.messageData, 'security') }}
-        </div>
-    {% endif %}
+<form method="post">
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" name="_username" id="email" value="{{ last_username }}" required autofocus>
+    </div>
 
-    <form method="post">
+    <div>
+        <label for="password">Mot de passe:</label>
+        <input type="password" name="_password" id="password" required>
+    </div>
 
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email"
-                   name="_username"
-                   value="{{ last_username }}"
-                   required
-                   placeholder="votre@email.com">
-        </div>
+    <button type="submit">Se connecter</button>
+</form>
 
-        <div class="input-group">
-            <label>Mot de passe</label>
-            <input type="password"
-                   name="_password"
-                   required>
-        </div>
-
-        <button type="submit" class="btn-login">
-            Se connecter
-        </button>
-
-        <div class="links">
-            <a href="/register">S’inscrire</a> |
-            <a href="#">Mot de passe oublié ?</a>
-        </div>
-
-    </form>
+<div>
+    <a href="{{ path('app_register') }}">S’inscrire</a> |
+    <a href="#">Mot de passe oublié ?</a>
 </div>
 {% endblock %}
-
