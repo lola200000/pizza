@@ -1,3 +1,31 @@
-body {
-    background-color: skyblue;
+.login-container {
+    width: 350px;
+    margin: 80px auto;
+    padding: 30px;
+    background: #fff;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+}
+
+.btn-login {
+    width: 100%;
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.links {
+    margin-top: 15px;
+    font-size: 14px;
 }
