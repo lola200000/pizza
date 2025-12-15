@@ -1,58 +1,31 @@
 <?php
 
-namespace App\Entity;
+namespace App\Controller;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-#[ORM\Entity]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
-{
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
-    #[ORM\Column(unique: true)]
-    private string $email;
-
-    #[ORM\Column]
-    private string $password;
-
-    #[ORM\Column]
-    private bool $isVerified = false;
-
-    public function getUserIdentifier(): string
+    #[Route('/login', name: 'app_login')]
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->email;
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        // login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+        ]);
     }
 
-    public function getRoles(): array
+    #[Route('/logout', name: 'app_logout')]
+    public function logout(): void
     {
-        return ['ROLE_USER'];
+        // Symfony intercepts this route
     }
-    public function getPassword(): ?string
-{
-    return $this->password;
-}
 
-
-public function eraseCredentials(): void
-{
-}
-
-public function isVerified(): bool
-{
-    return $this->isVerified;
-}
-
-public function setIsVerified(bool $isVerified): static
-{
-    $this->isVerified = $isVerified;
-
-    return $this;
-}
-}
